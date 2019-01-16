@@ -24,6 +24,7 @@ body {
     padding-top: 3%;
     padding-bottom: 3%;
     border: 6px solid rgb(36, 36, 36);
+    
 
 }
 
@@ -31,3 +32,4 @@ body {
     color: white;
     text-shadow: black 0.25em 0.25em 0.25em;
 }
+
