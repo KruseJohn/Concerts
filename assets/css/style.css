@@ -24,8 +24,6 @@ body {
     padding-top: 3%;
     padding-bottom: 3%;
     border: 6px solid rgb(36, 36, 36);
-    
-
 }
 
 .text-left {
@@ -33,3 +31,20 @@ body {
     text-shadow: black 0.25em 0.25em 0.25em;
 }
 
+.holder {
+    display: inline-block;
+    width: 100%;
+  /*  flex-wrap: wrap; */
+    padding: 5px;
+    margin: 10px 6px;
+    background-color: black;
+    border-radius: 15px;
+    border: 3px wheat;
+    border-style: double;
+}
+
+img {
+    border-radius: 15px;
+    margin:10px 15px 10px 10px;
+    border: 1px solid wheat;
+}

@@ -69,11 +69,40 @@ $.ajax({
         // console.log(response._embedded.events[i]._embedded.venues[0].country.name);
         // console.log(response._embedded.events[i]._embedded.venues[0].location.longitude);
         // console.log(response._embedded.events[i]._embedded.venues[0].location.latitude);
-        };
-    });
-};
 
-});
+         // Creating a div for the info                  
+         var venueDiv = $("<div>", {class: 'holder'});
+
+         var a = $('<p>').text(promoter).css("color", "white");
+         var b = $('<p>').text(eventName).css("color", "white");
+         var c = $('<p>').text(localeventDate + ", " + localeventTime).css("color", "white");
+         var d = $('<p>').text(venueCity + ", " + venueCountry).css("color", "white");
+         
+       //var f = $('<p>').text(coordinates);
+ 
+         //  Creating a new variable to include data for eventImage
+         var image = $("<img>").attr("src", eventImage).css("width", "50%").css("height", "auto")
+         .css("float","left");
+         
+         // create a div and button for a favorite button
+         var favBtn = $("<p><i class='far fa-heart fa-lg'></i><p>").css("padding","3px");
+         favBtn.attr({'favorite-status': 'No'}).css("color", "red").css("float","right");
+ 
+         // create a div and button for a map section
+         var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
+         mapBtn.attr({'favorite-status': 'No'}).css("color", "yellow").css("float","right");
+     
+         venueDiv.append(image,mapBtn,a,b,c,d,favBtn);
+ 
+         $("#venue-info").append(venueDiv);
+
+        };  // end of for loop
+
+    });  //  end of .then response
+
+};  //end of ajax call
+
+});  // end of submit search
 
 
 
