@@ -14,9 +14,9 @@ $("#submit-Search").on("click",function(event){
 
     console.log(bandName,city);
     ticketInfo();
-    
+
     //Function call to Ticketmaster API
-function ticketInfo() {
+    function ticketInfo() {
  
     //Set Variables
     var TMAPIKEY = "7elxdku9GGG5k8j0Xm8KWdANDgecHMV0";
@@ -32,7 +32,7 @@ $.ajax({
 
     //Process API Get response
     }).then(function(response){
-        console.log(response);
+        // console.log(response);
         //Loop through for 10 event results print to screen
         for (i = 0; i < 10; i++) {
             
