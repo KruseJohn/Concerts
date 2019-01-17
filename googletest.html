@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+
+        <div id="map"></div>
+   
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            
+
+        <script>
+            var map;
+            var service;
+            var infowindow;
+               var band = "Backstreet Boys"
+            var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=898JLmKZWyRkD7GGSVY5e6oE2Yg1G7cs&keyword=" + band;
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+                }).then(function(response) {
+                    // After data comes back from the request            
+                    console.log(queryURL);
+
+                    console.log(response);
+                     //Loop through for 10 event results print to screen
+                    for (i = 0; i < 1; i++) {
+
+                    console.log(response._embedded.events[i].name);
+                    console.log(response._embedded.events[i].url);
+                    console.log(response._embedded.events[i].dates.start.localDate);
+                    console.log(response._embedded.events[i].dates.start.localTime);
+                    console.log(response._embedded.events[i].promoter.name);
+                    console.log(response._embedded.events[i].images[0].url);
+                    console.log(response._embedded.events[i]._embedded.venues[0].city.name);
+                    var venueCity = response._embedded.events[i]._embedded.venues[0].city.name 
+                    console.log(response._embedded.events[i]._embedded.venues[0].country.name);
+                    console.log(response._embedded.events[i]._embedded.venues[0].location.longitude);
+                    var venueLong = response._embedded.events[i]._embedded.venues[0].location.longitude;
+                    console.log(response._embedded.events[i]._embedded.venues[0].location.latitude);
+                    var venueLat = response._embedded.events[i]._embedded.venues[0].location.latitude;
+                    };
+                });
+
+
+            //var longitude = parseInt(venueLong);
+            var longitude = -115.17247058;
+            //var latitude = parseInt(venueLat);
+            var latitude = 36.10961689;
+            var myLatLng = {lat: latitude, lng: longitude};
+            //var queryPlace = venueCity;
+            var queryPlace = "Las Vegas";
+
+
+            function initMap() {
+            var mapCenter = new google.maps.LatLng(myLatLng);
+    
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: mapCenter,
+                zoom: 15
+            });
+    
+            var request = {
+                query: queryPlace,
+                fields: ['photos', 'formatted_address', 'name', 'rating', 'opening_hours', 'geometry'],
+                
+            };
+
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                map: map,
+                title: 'Visit Me!'
+                });
+    
+            service = new google.maps.places.PlacesService(map);
+            service.findPlaceFromQuery(request, callback);
+            }
+    
+            function callback(results, status) {
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+                for (var i = 0; i < results.length; i++) {
+                var place = results[i];
+                createMarker(results[i]);
+                }
+            }
+            }
+
+        </script>
+        
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFpd-2EoMstvbarr8ywlER8dEv2nzfQhY&callback=initMap"
+    async defer></script>
+      
+ 
+
+
+
+
+  </body>
+</html>
+
