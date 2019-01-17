@@ -5,6 +5,7 @@ city = "";
 
 $("#submit-Search").on("click",function(event){
     event.preventDefault();
+    $("#venue-info").empty();
     
 
     bandName = $("#Band-Name").val().trim();
@@ -12,7 +13,6 @@ $("#submit-Search").on("click",function(event){
     // var dates=$("#Dates").val().trim();
     // var price = $("#PricePay").val().trim();
 
-    // console.log(bandName,city);
     ticketInfo();
 
     //Function call to Ticketmaster API
@@ -20,11 +20,20 @@ $("#submit-Search").on("click",function(event){
  
     //Set Variables
     var TMAPIKEY = "7elxdku9GGG5k8j0Xm8KWdANDgecHMV0";
-    var responseSize = "20";
-    var sorting = "date,desc";
-    var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName;
-    
-    
+    var radius = "500";
+    var unit = "miles";
+    var latlong = "40.712776,-74.005974";
+
+    // if/else statement to present different results if city is or isn't specified
+    if (city !== "") {
+        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&latlong=" + latlong + "&radius=" + radius + "&unit=" + unit;
+        console.log(queryURL);
+        }
+        else {
+        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName;
+        console.log(queryURL);
+        };
+
 $.ajax({
    
     url: queryURL,
@@ -51,24 +60,13 @@ $.ajax({
         console.log(eventURL);
         console.log(localeventDate);
         console.log(localeventTime);
-        console.log(promoter);
         console.log(eventImage);
         console.log(venueCity);
         console.log(venueCountry);
         console.log(venueLong);
         console.log(venueLat);
+        console.log(response._embedded.events[i].priceRanges);
 
-        // console.log(response._embedded.events[i].name);
-        // console.log(response._embedded.events[i].url);
-        // console.log(response._embedded.events[i].dates.start.localDate);
-        // console.log(response._embedded.events[i].dates.start.localTime);
-        // console.log(response._embedded.events[i].promoter.name);
-        // // console.log(response._embedded.events[i].priceRanges[0].currency);
-        // console.log(response._embedded.events[i].images[0].url);
-        // console.log(response._embedded.events[i]._embedded.venues[0].city.name);
-        // console.log(response._embedded.events[i]._embedded.venues[0].country.name);
-        // console.log(response._embedded.events[i]._embedded.venues[0].location.longitude);
-        // console.log(response._embedded.events[i]._embedded.venues[0].location.latitude);
 
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
