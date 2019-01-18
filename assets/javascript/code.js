@@ -102,6 +102,24 @@ $.ajax({
 
 });  // end of submit search
 
+// When the user scrolls down 600px from the top of the document, show "back to top" button
+var btn = $('#upBtn');
+
+$(window).scroll(function () {
+    if ($(window).scrollTop() > 600) {
+        btn.addClass('show');
+    } else {
+        btn.removeClass('show');
+    }
+});
+
+btn.on('click', function (e) {
+    e.preventDefault();
+    $('html, body').animate({
+        scrollTop: 0
+    }, '300');
+});
+
 
 
 
