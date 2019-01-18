@@ -4,9 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project 1</title>
+    <title>Where's My Music?</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
     <link rel="stylesheet" type="text/css" media="screen" href="assets/css/style.css">
+
+    <!-- jQuery link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Firebasejs link-->
+        <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>  
 
 </head>
 
@@ -17,29 +23,127 @@
         <div class="jumbotron">
             <h1 class="text-left">Where's My Music!</h1>
             <br>
-            <br>
-            <br>
-            <h4 class="text-right" style="color: white;">Search Box/Submit Button Goes Here</h4>
+
+            <form>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> <label for="bidder-name">Artist/Band name</label></strong>
+                        <input class="form-control" id="Band-Name" type="text">
+                    </div>
+
+                    <!-- <div class ="form-group">
+                        <div class="col-sm-4">
+                        <strong> <label for="bidder-price">Price Point: optional </label> </strong>
+                        <input class="form-control" id="PricePay" type="number">
+                    </div> -->
+       
+                    <div class="col-sm-6">
+                        <strong> <label for="bidder-price">City</label> </strong>
+                        <input class="form-control" id="address" type="text">
+                    </div>
+
+                </div>
+
+
+
+                <!-- <div class="form-group-row"> -->
+
+
+                <!-- <div class= "col-sm-6"> -->
+
+
+                <!-- <label for="bidder-price">Dates: optional</label> -->
+                <!-- <input class="form-control" id="Dates" type="text"> -->
+                <!-- </div> -->
+                <!-- </div> -->
+
+
+
+                <br>
+                <button class="btn btn-primary" id="submit-Search" type="submit">Submit</button>
+            </form>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="fav-btn">
+                    <!--"favorites buttons go here-->
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-sm-8">
+                <div id="search-results">
+                    <!-- Search results go here -->
+                    <div id="venue-info">
+                        <!-- venue name/pic/city info + ticket url <button> go here (js .addClass) -->
+                    </div>
+                </div>
+               <div class="col-sm-4">
+                    <div id="map">
+                        <!-- Map to venue goes here -->
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
-            <div class="col">
-                <!-- Current Schedule -->
-            </div>
+            <a id="upBtn">
+                <i class="fas fa-arrow-circle-up fa-2x" title="Back to Top!"></i>
+              </a>
         </div>
     </div>
 
-    <!-- jQuery link -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <!-- Moment JS link -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
-    <!-- Firebasejs link
-    <script src="https://www.gstatic.com/firebasejs/5.7.3/firebase.js"></script>  -->
 
     <!-- My javascript link-->
     <script src="assets/javascript/app.js"></script>
+    <script src="assets/javascript/code.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFpd-2EoMstvbarr8ywlER8dEv2nzfQhY&callback=initMap"
+        async defer></script>
 
+       <script>
+
+        var geocoder;
+        var map;
+        //google api stuff
+
+         
+        function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 8,
+          center: {lat: -34.397, lng: 150.644}
+        });
+        var geocoder = new google.maps.Geocoder();
+
+        document.getElementById('submit-Search').addEventListener('click', function() {
+          geocodeAddress(geocoder, map);
+        });
+      }
+
+      function geocodeAddress(geocoder, resultsMap) {
+        var address = document.getElementById('address').value;
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status === 'OK') {
+            resultsMap.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: results[0].geometry.location
+            });
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+
+
+    </script>
 
 
 

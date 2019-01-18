@@ -8,6 +8,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    background-attachment: fixed;
     background-color: black;
 
 }
@@ -24,10 +25,69 @@ body {
     padding-top: 3%;
     padding-bottom: 3%;
     border: 6px solid rgb(36, 36, 36);
-
 }
 
 .text-left {
     color: white;
     text-shadow: black 0.25em 0.25em 0.25em;
 }
+
+.holder {
+    display: inline-block;
+    width: 100%;
+  /*  flex-wrap: wrap; */
+    padding: 5px;
+    margin: 10px 6px;
+    background-color: black;
+    border-radius: 15px;
+    border: 3px wheat;
+    border-style: double;
+}
+
+img {
+    border-radius: 15px;
+    margin:10px 15px 10px 10px;
+    border: 1px solid wheat;
+}
+
+#upBtn {
+    display: inline-block;
+    background-color: whitesmoke;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    vertical-align: middle;
+    position: fixed;
+    bottom: 49px;
+    right: 30px;
+    transition: background-color .3s,
+        opacity .5s, visibility .5s;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+    border-radius: 50%;
+    border: 1px solid whitesmoke;
+}
+
+#upBtn::after {
+    font-weight: normal;
+    font-style: normal;
+    font-size: 2em;
+    line-height: 50px;
+    color: whitesmoke;
+}
+
+#upBtn:hover {
+    cursor: pointer;
+    background-color: gold;
+}
+
+#upBtn:active {
+    background-color: gold;
+}
+
+#upBtn.show {
+    opacity: 1;
+    visibility: visible;
+}
+
