@@ -38,15 +38,16 @@ $("#submit-Search").on("click",function(event){
     var TMAPIKEY = "7elxdku9GGG5k8j0Xm8KWdANDgecHMV0";
     var radius = "500";
     var unit = "miles";
-    var latlong = "40.712776,-74.005974";
+    var classification = "music";
+    // var latlong = "40.712776,-74.005974";
 
     // if/else statement to present different results if city is or isn't specified
     if (city !== "") {
-        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&latlong=" + latlong + "&radius=" + radius + "&unit=" + unit;
+        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&radius=" + radius + "&unit=" + unit + "&city=" + city + "&classificationName=" + classification;
         console.log(queryURL);
         }
         else {
-        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName;
+        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&classificationName=" + classification;
         console.log(queryURL);
         };
 
@@ -64,6 +65,8 @@ $.ajax({
         var eventName = response._embedded.events[i].name;
         var eventURL = response._embedded.events[i].url;
         var localeventDate = response._embedded.events[i].dates.start.localDate;
+        var localeventDateUnformatted = response._embedded.events[i].dates.start.localDate;
+        var localeventDate = moment(localeventDateUnformatted).format("MMMM Do YYYY")
         var localeventTime = response._embedded.events[i].dates.start.localTime;
         var promoter = response._embedded.events[i].promoter.name;
         var eventImage = response._embedded.events[i].images[0].url;
