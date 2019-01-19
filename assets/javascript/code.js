@@ -1,3 +1,19 @@
+
+var config = {
+    apiKey: "AIzaSyDz_0KKxD5xNCPQjwG-66J5Vjky4qM6-Lg",
+    authDomain: "uden-bootcamp-project-1-team-1.firebaseapp.com",
+    databaseURL: "https://uden-bootcamp-project-1-team-1.firebaseio.com",
+    projectId: "uden-bootcamp-project-1-team-1",
+    storageBucket: "uden-bootcamp-project-1-team-1.appspot.com",
+    messagingSenderId: "68929725202"
+  };
+  
+  firebase.initializeApp(config);
+ 
+  var database = firebase.database();
+
+
+
 //Submit Search logic
 
 bandName = "";
@@ -83,9 +99,13 @@ $.ajax({
          .css("float","left");
          
          // create a div and button for a favorite button
-         var favBtn = $("<p><i class='far fa-heart fa-lg'></i><p>").css("padding","3px");
-         favBtn.attr({'favorite-status': 'No'}).css("color", "red").css("float","right");
- 
+         var favBtn = $("<p class='far fa-heart fa-lg' id='heart'></p>").css("padding","3px");
+         favBtn.attr('favorite-status', 'No').css("color", "red").css("float","right");
+         favBtn.attr("data-promoter", promoter);
+         favBtn.attr("data-dateTime", localeventDate + localeventTime)
+         favBtn.attr("data-venue" , venueCity + venueCountry);
+         favBtn.attr("data-eventName",eventName);
+         favBtn.attr("data-eventImage", eventImage);
          // create a div and button for a map section
          var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
          mapBtn.attr({'favorite-status': 'No'}).css("color", "yellow").css("float","right");
@@ -101,6 +121,107 @@ $.ajax({
 };  //end of ajax call
 
 });  // end of submit search
+
+$(document.body).on("click", "#heart", function () {
+    var favStatus = $(this).attr("favorite-status");
+    var parentCard = $(this).attr("data-promoter");
+ //   var parentCardID = "#" + parentCard;
+    console.log(parentCard);
+    console.log(favStatus);
+    
+    // Add to Favorites section
+    if (favStatus === "No") {
+        $(this).addClass("fas").removeClass("far");
+        $(this).attr({
+            'favorite-status': 'Yes'
+        });
+        //function renderButtons() {
+        //    $("#fav-btn").empty();
+    
+           
+              //  var a = $("<button class = 'btn btn-primary'>");
+             //   a.addClass("favorite");
+                
+             //   a.text("favorites");
+             //   $("#fav-btn").append(a);
+            //    console.log(a);
+            
+    
+         // end of renderButtons function...
+    
+        //  call the function  
+       // renderButtons(); 
+    
+        } else {
+            // Remove from Favorites
+            $(this).attr({
+                'favorite-status': 'No'
+            }).addClass("far").removeClass("fas");
+            
+            
+        }
+
+        var favSav = {
+            promoter : $(this).attr("data-promoter"),   
+            eventName: $(this).attr("data-eventName"),
+           // eventURL: $(this).attr(eventURL,
+            eventImage: $(this).attr("data-eventImage"),
+           localeventDate : $(this).attr("data-dateTime"),
+           // localeventTime : localeventTime,
+           venueCity : $(this).attr("data-venue"),
+           // venueCountry : venueCountry
+           }
+       
+           database.ref().push(favSav);
+    
+    
+    }); 
+    database.ref().on("child_added", function(snapshot){
+       
+        console.log(snapshot.val());
+
+        $("#favorite").attr(snapshot.val());
+
+    });
+
+ $("#favorite").on("click" , function () {
+          console.log(this);
+              
+          
+    var venueDiv = $("<div>", {class: 'holder'});
+
+    var a = $('<p>');
+    a = $(this).attr("eventname");
+        
+           
+    var b = $('<p>');
+        b = $(this).attr("promoter");
+        console.log(a + "," + b);
+
+    var c = $('<p>');
+        c = $(this).attr("localeventdate"); 
+    
+    var d = $('<p>');
+        d = $(this).attr("venuecity");     
+    
+    //var eventImage = $('<img src = >');
+    
+     //   eventImage = $(this).attr("eventimage");
+        
+       // venueDiv.append(eventImage);
+        venueDiv.append(a);
+        venueDiv.append(b);
+        venueDiv.append(c);
+        venueDiv.append(d);
+        
+ 
+         $("#venue-info").append(venueDiv);
+        });
+ 
+
+
+
+
 
 // When the user scrolls down 600px from the top of the document, show "back to top" button
 var btn = $('#upBtn');
@@ -119,7 +240,3 @@ btn.on('click', function (e) {
         scrollTop: 0
     }, '300');
 });
-
-
-
-
