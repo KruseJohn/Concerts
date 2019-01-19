@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 25%;
+        width: 25%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+        <div id="map"></div>
+        <input id="address" type="textbox" value="Sydney, NSW">
+        <input id="submit-Search" type="button" value="Find me!">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFpd-2EoMstvbarr8ywlER8dEv2nzfQhY&callback=initMap"
+        async defer></script>
+
+        <script src="googlemaps.js" async defer></script>
+
+    </body>
+    </html>
