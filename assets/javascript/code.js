@@ -101,8 +101,11 @@ $.ajax({
          // create a div and button for a favorite button
          var favBtn = $("<p class='far fa-heart fa-lg' id='heart'></p>").css("padding","3px");
          favBtn.attr('favorite-status', 'No').css("color", "red").css("float","right");
-         favBtn.attr("data-promoter", promoter +  localeventDate + localeventTime + venueCity + venueCountry);
+         favBtn.attr("data-promoter", promoter);
+         favBtn.attr("data-dateTime", localeventDate + localeventTime)
+         favBtn.attr("data-venue" , venueCity + venueCountry);
          favBtn.attr("data-eventName",eventName);
+         favBtn.attr("data-eventImage", eventImage);
          // create a div and button for a map section
          var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
          mapBtn.attr({'favorite-status': 'No'}).css("color", "yellow").css("float","right");
@@ -161,11 +164,11 @@ $(document.body).on("click", "#heart", function () {
         var favSav = {
             promoter : $(this).attr("data-promoter"),   
             eventName: $(this).attr("data-eventName"),
-           // eventURL: eventURL,
-           // eventImage: eventImage,
-           // localeventDate : localeventDate,
+           // eventURL: $(this).attr(eventURL,
+            eventImage: $(this).attr("data-eventImage"),
+           localeventDate : $(this).attr("data-dateTime"),
            // localeventTime : localeventTime,
-           // venueCity : venueCity,
+           venueCity : $(this).attr("data-venue"),
            // venueCountry : venueCountry
            }
        
@@ -181,21 +184,40 @@ $(document.body).on("click", "#heart", function () {
 
     });
 
- $("#favorite").on("click" , function (event) {
+ $("#favorite").on("click" , function () {
           console.log(this);
-          favorites.forEach( favshow => {
               
           
     var venueDiv = $("<div>", {class: 'holder'});
 
-    var a = $('<p>').text(this.promoter[favshow]).css("color", "white");
-    var b = $('<p>').text(this.eventName [favshow]).css("color", "white");
+    var a = $('<p>');
+    a = $(this).attr("eventname");
+        
+           
+    var b = $('<p>');
+        b = $(this).attr("promoter");
+        console.log(a + "," + b);
 
-    venueDiv.append(a,b);
+    var c = $('<p>');
+        c = $(this).attr("localeventdate"); 
+    
+    var d = $('<p>');
+        d = $(this).attr("venuecity");     
+    
+    //var eventImage = $('<img src = >');
+    
+     //   eventImage = $(this).attr("eventimage");
+        
+       // venueDiv.append(eventImage);
+        venueDiv.append(a);
+        venueDiv.append(b);
+        venueDiv.append(c);
+        venueDiv.append(d);
+        
  
          $("#venue-info").append(venueDiv);
         });
- });
+ 
 
 
 
