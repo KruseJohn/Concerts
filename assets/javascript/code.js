@@ -65,6 +65,8 @@ $.ajax({
         var eventName = response._embedded.events[i].name;
         var eventURL = response._embedded.events[i].url;
         var localeventDate = response._embedded.events[i].dates.start.localDate;
+        var localeventDateUnformatted = response._embedded.events[i].dates.start.localDate;
+        var localeventDate = moment(localeventDateUnformatted).format("MMMM Do YYYY")
         var localeventTime = response._embedded.events[i].dates.start.localTime;
         var promoter = response._embedded.events[i].promoter.name;
         var eventImage = response._embedded.events[i].images[0].url;
