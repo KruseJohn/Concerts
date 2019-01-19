@@ -126,6 +126,7 @@ $.ajax({
 });  // end of submit search
 
 $(document.body).on("click", "#heart", function () {
+          
     var favStatus = $(this).attr("favorite-status");
     var parentCard = $(this).attr("data-promoter");
  //   var parentCardID = "#" + parentCard;
@@ -138,29 +139,14 @@ $(document.body).on("click", "#heart", function () {
         $(this).attr({
             'favorite-status': 'Yes'
         });
-        //function renderButtons() {
-        //    $("#fav-btn").empty();
-    
-           
-              //  var a = $("<button class = 'btn btn-primary'>");
-             //   a.addClass("favorite");
-                
-             //   a.text("favorites");
-             //   $("#fav-btn").append(a);
-            //    console.log(a);
-            
-    
-         // end of renderButtons function...
-    
-        //  call the function  
-       // renderButtons(); 
+       
     
         } else {
             // Remove from Favorites
             $(this).attr({
                 'favorite-status': 'No'
             }).addClass("far").removeClass("fas");
-            
+            database.ref(shapshot.key).remove();
             
         }
 
@@ -177,18 +163,41 @@ $(document.body).on("click", "#heart", function () {
        
            database.ref().push(favSav);
     
-    
+        //    function renderButtons() {
+            
+     
+        //    for(i = 0; i < favSav.length; i++) {
+                
+            
+                //  var newBtn = $("<button class = 'btn btn-primary'>");
+            //    newBtn.addClass("favorite");
+                 
+                // newBtn.text("favorites");
+                // newBtn.attr("data-promoter" ,[i]);
+                // $("#fav-btn").append(newBtn);
+             
+             
+        //  };
+    //  }
+          // end of renderButtons function...
+     
+         //  call the function  
+        // renderButtons(); 
     }); 
     database.ref().on("child_added", function(snapshot){
        
         console.log(snapshot.val());
+        
 
         $("#favorite").attr(snapshot.val());
 
+
     });
 
- $("#favorite").on("click" , function () {
-          console.log(this);
+ $("#favorite").on("click" , function (event) {
+    event.preventDefault();
+    
+    console.log(this);
               
           
     var venueDiv = $("<div>", {class: 'holder'});
@@ -218,7 +227,7 @@ $(document.body).on("click", "#heart", function () {
         venueDiv.append(d);
         
  
-         $("#venue-info").append(venueDiv);
+         $("#venue-info").prepend(venueDiv);
         });
  
 
