@@ -91,3 +91,7 @@ img {
     opacity: 1;
     visibility: visible;
 }
+
+#mapid { 
+    height: 180px;
+}

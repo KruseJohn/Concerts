@@ -86,6 +86,20 @@ $.ajax({
         console.log(venueLat);
         console.log(response._embedded.events[i].priceRanges);
 
+        
+        function addMap(){
+            var mymap = L.map('mapid').setView([venueLat, venueLong], 13);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoiYWFybTQ3MDIiLCJhIjoiY2pyM3RiNmw5MGU1bDN5bXk5MXE1ZGs2bSJ9.QbhjZk1rjfQb2fo7bvI-8A'
+                }).addTo(mymap);         
+                
+            
+            var marker = L.marker([venueLat, venueLong]).addTo(mymap);
+            marker.bindPopup("Venue!").openPopup();
+        }
 
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
@@ -116,6 +130,7 @@ $.ajax({
          venueDiv.append(image,mapBtn,a,b,c,d,favBtn);
  
          $("#venue-info").append(venueDiv);
+         $("#mapid").append(addMap);
 
         };  // end of for loop
 
