@@ -43,7 +43,7 @@ $("#submit-Search").on("click",function(event){
 
     // if/else statement to present different results if city is or isn't specified
     if (city !== "") {
-        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&latlong=" + latlong + "&radius=" + radius + "&unit=" + unit + "&classificationName=" + classification;
+        var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&radius=" + radius + "&unit=" + unit + "&city=" + city + "&classificationName=" + classification;
         console.log(queryURL);
         }
         else {
