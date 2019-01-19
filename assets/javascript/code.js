@@ -135,22 +135,7 @@ $(document.body).on("click", "#heart", function () {
         $(this).attr({
             'favorite-status': 'Yes'
         });
-        //function renderButtons() {
-        //    $("#fav-btn").empty();
-    
-           
-              //  var a = $("<button class = 'btn btn-primary'>");
-             //   a.addClass("favorite");
-                
-             //   a.text("favorites");
-             //   $("#fav-btn").append(a);
-            //    console.log(a);
-            
-    
-         // end of renderButtons function...
-    
-        //  call the function  
-       // renderButtons(); 
+       
     
         } else {
             // Remove from Favorites
@@ -174,7 +159,26 @@ $(document.body).on("click", "#heart", function () {
        
            database.ref().push(favSav);
     
-    
+           function renderButtons() {
+            $("#fav-btn").empty();
+     
+           for(i = 0; i < favSav.length; i++) {
+                
+            
+                 var newBtn = $("<button class = 'btn btn-primary'>");
+               newBtn.addClass("favorite");
+                 
+                newBtn.text("favorites");
+                newBtn.attr("data-promoter" ,[i]);
+                $("#fav-btn").append(newBtn);
+             
+             
+         };
+     }
+          // end of renderButtons function...
+     
+         //  call the function  
+        renderButtons(); 
     }); 
     database.ref().on("child_added", function(snapshot){
        
@@ -215,7 +219,7 @@ $(document.body).on("click", "#heart", function () {
         venueDiv.append(d);
         
  
-         $("#venue-info").append(venueDiv);
+         $("#venue-info").prepend(venueDiv);
         });
  
 
