@@ -146,8 +146,7 @@ $(document.body).on("click", "#heart", function () {
             $(this).attr({
                 'favorite-status': 'No'
             }).addClass("far").removeClass("fas");
-            database.ref(shapshot.key).remove();
-            
+           database.ref(favSav).remove();
         }
 
         var favSav = {
@@ -159,6 +158,7 @@ $(document.body).on("click", "#heart", function () {
            // localeventTime : localeventTime,
            venueCity : $(this).attr("data-venue"),
            // venueCountry : venueCountry
+           
            }
        
            database.ref().push(favSav);
@@ -188,9 +188,8 @@ $(document.body).on("click", "#heart", function () {
        
         console.log(snapshot.val());
         
-
-        $("#favorite").attr(snapshot.val());
-
+            $("#favorite").attr(snapshot.val());
+        
 
     });
 
@@ -202,29 +201,26 @@ $(document.body).on("click", "#heart", function () {
           
     var venueDiv = $("<div>", {class: 'holder'});
 
-    var a = $('<p>');
-    a = $(this).attr("eventname");
+    var a = $('<p>')
+        a.text( $(this).attr("eventname"));
         
            
     var b = $('<p>');
-        b = $(this).attr("promoter");
-        console.log(a + "," + b);
-
-    var c = $('<p>');
-        c = $(this).attr("localeventdate"); 
-    
-    var d = $('<p>');
-        d = $(this).attr("venuecity");     
-    
-    //var eventImage = $('<img src = >');
-    
-     //   eventImage = $(this).attr("eventimage");
+        b.text($(this).attr("promoter"));
         
-       // venueDiv.append(eventImage);
-        venueDiv.append(a);
-        venueDiv.append(b);
-        venueDiv.append(c);
-        venueDiv.append(d);
+
+    var c = $('<p>').text($(this).attr("localeventdate")); 
+    
+    var d = $('<p>').text($(this).attr("venuecity"));     
+    
+    var eventImage = $('<img>');
+        eventImage.addClass("favImg");
+
+      eventImage.attr("src", $(this).attr("eventimage"));
+        
+       venueDiv.append(eventImage);
+        venueDiv.append(b,a,c,d);
+        
         
  
          $("#venue-info").prepend(venueDiv);
