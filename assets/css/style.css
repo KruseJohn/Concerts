@@ -91,3 +91,9 @@ img {
     opacity: 1;
     visibility: visible;
 }
+
+.favImg {
+    width: 50%;
+    height: auto;
+    float: left;
+}
