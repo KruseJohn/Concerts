@@ -234,11 +234,7 @@ $(document.body).on("click", "#heart", function () {
         venueDiv.append(c + ", ");
         venueDiv.append(d);
         
-<<<<<<< HEAD
             //  prepend all favorite data to html in the form of a button
-=======
- 
->>>>>>> master
          $("#venue-info").prepend(venueDiv);
         });
  
