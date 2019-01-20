@@ -1,3 +1,5 @@
+$(document).ready(function () {
+
 
 var config = {
     apiKey: "AIzaSyDz_0KKxD5xNCPQjwG-66J5Vjky4qM6-Lg",
@@ -123,12 +125,18 @@ $.ajax({
          favBtn.attr("data-venue" , venueCity + venueCountry);
          favBtn.attr("data-eventName",eventName);
          favBtn.attr("data-eventImage", eventImage);
+
          // create a div and button for a map section
          var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
          mapBtn.attr({'favorite-status': 'No'}).css("color", "yellow").css("float","right");
-     
-         venueDiv.append(image,mapBtn,a,b,c,d,favBtn);
- 
+
+         // create a div and button for a ticket purchase page
+         var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto");
+         var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
+         ticketBtn.append(ticketBtnImage);
+
+         //  append everything within the venue card to the html...
+         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,ticketBtn); 
          $("#venue-info").append(venueDiv);
          $("#mapid").append(addMap);
 
@@ -161,8 +169,7 @@ $(document.body).on("click", "#heart", function () {
             $(this).attr({
                 'favorite-status': 'No'
             }).addClass("far").removeClass("fas");
-            database.ref(shapshot.key).remove();
-            
+           database.ref(favSav).remove();
         }
 
         var favSav = {
@@ -174,6 +181,7 @@ $(document.body).on("click", "#heart", function () {
            // localeventTime : localeventTime,
            venueCity : $(this).attr("data-venue"),
            // venueCountry : venueCountry
+           
            }
        
            database.ref().push(favSav);
@@ -203,9 +211,8 @@ $(document.body).on("click", "#heart", function () {
        
         console.log(snapshot.val());
         
-
-        $("#favorite").attr(snapshot.val());
-
+            $("#favorite").attr(snapshot.val());
+        
 
     });
 
@@ -217,53 +224,63 @@ $(document.body).on("click", "#heart", function () {
           
     var venueDiv = $("<div>", {class: 'holder'});
 
-    var a = $('<p>');
-    a = $(this).attr("eventname");
+    var a = $('<p>')
+        a.text( $(this).attr("eventname"));
         
            
     var b = $('<p>');
-        b = $(this).attr("promoter");
-        console.log(a + "," + b);
-
-    var c = $('<p>');
-        c = $(this).attr("localeventdate"); 
-    
-    var d = $('<p>');
-        d = $(this).attr("venuecity");     
-    
-    //var eventImage = $('<img src = >');
-    
-     //   eventImage = $(this).attr("eventimage");
+        b.text($(this).attr("promoter"));
         
+
+    var c = $('<p>').text($(this).attr("localeventdate")); 
+    
+    var d = $('<p>').text($(this).attr("venuecity"));     
+    
+    var eventImage = $('<img>');
+        eventImage.addClass("favImg");
+
+      eventImage.attr("src", $(this).attr("eventimage"));
+        
+       venueDiv.append(eventImage);
+        venueDiv.append(b,a,c,d);
+        
+
        // venueDiv.append(eventImage);
         venueDiv.append(a);
         venueDiv.append(b);
         venueDiv.append(c);
         venueDiv.append(d);
         
- 
+            //  prepend all favorite data to html in the form of a button
          $("#venue-info").prepend(venueDiv);
         });
  
+            //  on click function for favorite button
+        $(document.body).on("click", ".fa-heart", function () {
+        });
 
+            //  on click function for ticket button
+        $(document.body).on("click", ".tix", function () {
+            console.log("clicked");
+        });
 
+    // When the user scrolls down 600px from the top of the document, show "back to top" button
+    var btn = $('#upBtn');
 
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 600) {
+         btn.addClass('show');
+        } else {
+         btn.removeClass('show');
+        }
+    });
 
-
-// When the user scrolls down 600px from the top of the document, show "back to top" button
-var btn = $('#upBtn');
-
-$(window).scroll(function () {
-    if ($(window).scrollTop() > 600) {
-        btn.addClass('show');
-    } else {
-        btn.removeClass('show');
-    }
-});
-
-btn.on('click', function (e) {
-    e.preventDefault();
-    $('html, body').animate({
+    btn.on('click', function (e) {
+     e.preventDefault();
+     $('html, body').animate({
         scrollTop: 0
-    }, '300');
-});
+     }, '300');
+
+    }); //  end of up button function
+
+});  //  end of document ready function
