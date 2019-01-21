@@ -106,6 +106,10 @@ body {
     visibility: visible;
 }
 
+#mapid { 
+    height: 180px;
+}
+
 .favImg {
     width: 50%;
     height: auto;
