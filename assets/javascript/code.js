@@ -21,16 +21,16 @@ var config = {
 bandName = "";
 city = "";
 
+
 $("#submit-Search").on("click",function(event){
     event.preventDefault();
     $("#venue-info").empty();
-    
 
     bandName = $("#Band-Name").val().trim();
     city = $("#CityName").val().trim();
     // var dates=$("#Dates").val().trim();
     // var price = $("#PricePay").val().trim();
-
+    cityMap = $("#CityName").val().trim();
 
     ticketInfo();
 
@@ -93,8 +93,66 @@ $.ajax({
         console.log(venueLat);
         console.log(response._embedded.events[i].priceRanges);
 
+        
+
+         // Creating a div for the info                  
+         var venueDiv = $("<div>", {class: 'holder'});
+
+         var a = $('<p>').text(promoter).css("color", "white");
+         var b = $('<p>').text(eventName).css("color", "white");
+         var c = $('<p>').text(localeventDate + ", " + localeventTime).css("color", "white");
+         var d = $('<p>').text(venueCity + ", " + venueCountry).css("color", "white");
+         
+       //var f = $('<p>').text(coordinates);
+ 
+         //  Creating a new variable to include data for eventImage
+         var image = $("<img>").attr("src", eventImage).css("width", "50%").css("height", "auto").css("float","left");
+         
+         // create a div and button for a favorite button
+         var favBtn = $("<p class='far fa-heart fa-lg' id='heart'></p>").css("padding","3px");
+         favBtn.attr('favorite-status', 'No').css("color", "red").css("float","right");
+         favBtn.attr("data-promoter", promoter);
+         favBtn.attr("data-dateTime", localeventDate + localeventTime)
+         favBtn.attr("data-venue" , venueCity + venueCountry);
+         favBtn.attr("data-eventName",eventName);
+         favBtn.attr("data-eventImage", eventImage);
+         favBtn.attr("title","Save Venue");
+
+         // create a div and button for a map section
+        //  var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
+        
+         var googleMap = "https://www.google.com/maps/@" + venueLat + "," + venueLong + ",15z";
+         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("color","yellow").css("padding","3px");
+         mapBtn.attr({'favorite-status': 'No'});
+         console.log(googleMap);
+
+         // create a div and button for a ticket purchase page
+         var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").attr("title","Buy Tickets Now!").css("float","right").css("width", "20%").css("height", "auto");
+         var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
+         var clickImage = $("<p><i class='fas fa-mouse-pointer fa-lg'></i>");
+         ticketBtn.append(ticketBtnImage);
+
+         //  append everything within the venue card to the html...
+         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,ticketBtn,clickImage); 
+         $("#venue-info").append(venueDiv);  
+
+         // Requirement for text in Band field #43
+         var normalizeBand = bandName.toUpperCase();
+         var eventBand = artistName.toUpperCase();
+
+         console.log(normalizeBand);
+         console.log(eventBand);
+        
+      //   if (normalizeBand !== eventBand) {
+          //  alert( "No concerts for this band!"); 
+      //   };
+         // end of requirement for bands.
+
+        };  // end of for loop
+            
         //adding the map function through Leaflet Issues#13
         function addMap(){
+           
             var mymap = L.map('mapid').setView([venueLat, venueLong], 13);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -108,61 +166,9 @@ $.ajax({
             marker.bindPopup("<b>Venue</b><br>" + venueName).openPopup();
         }
 
-         // Creating a div for the info                  
-         var venueDiv = $("<div>", {class: 'holder'});
-
-         var a = $('<p>').text(promoter).css("color", "white");
-         var b = $('<p>').text(eventName).css("color", "white");
-         var c = $('<p>').text(localeventDate + ", " + localeventTime).css("color", "white");
-         var d = $('<p>').text(venueCity + ", " + venueCountry).css("color", "white");
-         
-       //var f = $('<p>').text(coordinates);
- 
-         //  Creating a new variable to include data for eventImage
-         var image = $("<img>").attr("src", eventImage).css("width", "50%").css("height", "auto")
-         .css("float","left");
-         
-         // create a div and button for a favorite button
-         var favBtn = $("<p class='far fa-heart fa-lg' id='heart'></p>").css("padding","3px");
-         favBtn.attr('favorite-status', 'No').css("color", "red").css("float","right");
-         favBtn.attr("data-promoter", promoter);
-         favBtn.attr("data-dateTime", localeventDate + localeventTime)
-         favBtn.attr("data-venue" , venueCity + venueCountry);
-         favBtn.attr("data-eventName",eventName);
-         favBtn.attr("data-eventImage", eventImage);
-
-         // create a div and button for a map section
-        //  var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
+       // if ("#CityName" === "") 
         
-         var googleMap = "https://www.google.com/maps/@" + venueLat + "," + venueLong + ",15z";
-         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto").css("color","yellow").css("padding","3px");
-         mapBtn.attr({'favorite-status': 'No'});
-         console.log(googleMap);
-
-         // create a div and button for a ticket purchase page
-         var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto");
-         var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
-         ticketBtn.append(ticketBtnImage);
-
-         //  append everything within the venue card to the html...
-         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,ticketBtn); 
-         $("#venue-info").append(venueDiv);
-         $("#mapid").append(addMap); //adding map
-
-
-         // Requirement for text in Band field #43
-         var normalizeBand = bandName.toUpperCase();
-         var eventBand = artistName.toUpperCase();
-
-         console.log(normalizeBand);
-         console.log(eventBand);
-        
-         if( normalizeBand !== eventBand){
-             alert( "No concerts for this band!" )
-         };
-         // end of requirement for bands.
-
-        };  // end of for loop
+        $("#mapid").append(addMap);
 
     });  //  end of .then response
 
