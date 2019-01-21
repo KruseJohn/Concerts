@@ -105,13 +105,8 @@ $.ajax({
                 
             //getting the marker in map using the venue Name
             var marker = L.marker([venueLat, venueLong]).addTo(mymap);
-            marker.bindPopup(venueName).openPopup(); 
-            console.log(mymap,[i]);   
-
-        };
-
-      //  adding map to html
-      $("#mapid").append(addMap); 
+            marker.bindPopup("<b>Venue</b><br>" + venueName).openPopup();
+        }
 
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
@@ -137,8 +132,12 @@ $.ajax({
          favBtn.attr("title","Save Venue");
 
          // create a div and button for a map section
-         var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
-         mapBtn.attr({'favorite-status': 'No'}).attr("title","Map").css("color", "yellow").css("float","right");
+        //  var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
+        
+         var googleMap = "https://www.google.com/maps/@" + venueLat + "," + venueLong + ",15z";
+         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto").css("color","yellow").css("padding","3px");
+         mapBtn.attr({'favorite-status': 'No'});
+         console.log(googleMap);
 
          // create a div and button for a ticket purchase page
          var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").attr("title","Buy Tickets Now!").css("float","right").css("width", "20%").css("height", "auto");
