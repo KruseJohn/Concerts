@@ -24,7 +24,6 @@ city = "";
 $("#submit-Search").on("click",function(event){
     event.preventDefault();
     $("#venue-info").empty();
-    
 
     bandName = $("#Band-Name").val().trim();
     city = $("#CityName").val().trim();
@@ -119,10 +118,11 @@ $.ajax({
          // create a div and button for a ticket purchase page
          var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto");
          var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
+         var clickImage = $("<p><i class='fas fa-mouse-pointer fa-lg'></i>");
          ticketBtn.append(ticketBtnImage);
 
          //  append everything within the venue card to the html...
-         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,ticketBtn); 
+         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,ticketBtn,clickImage); 
          $("#venue-info").append(venueDiv);
 
         };  // end of for loop

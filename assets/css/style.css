@@ -57,6 +57,12 @@ body {
     border: 1px solid wheat;
 }
 
+.fa-mouse-pointer {
+    float: right;
+    margin: 0px 20px;
+    transform: rotate(150deg);   
+}
+
 .tix img {
     float: right;
     width: 100%;
