@@ -108,6 +108,10 @@ $.ajax({
             marker.bindPopup("<b>Venue</b><br>" + venueName).openPopup();
         }
 
+       // if ("#CityName" === "") 
+        
+        $("#mapid").append(addMap);
+
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
 
@@ -135,7 +139,7 @@ $.ajax({
         //  var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
         
          var googleMap = "https://www.google.com/maps/@" + venueLat + "," + venueLong + ",15z";
-         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto").css("color","yellow").css("padding","3px");
+         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("color","yellow").css("padding","3px");
          mapBtn.attr({'favorite-status': 'No'});
          console.log(googleMap);
 
@@ -156,9 +160,9 @@ $.ajax({
          console.log(normalizeBand);
          console.log(eventBand);
         
-         if (normalizeBand !== eventBand) {
-            alert( "No concerts for this band!"); 
-         };
+      //   if (normalizeBand !== eventBand) {
+          //  alert( "No concerts for this band!"); 
+      //   };
          // end of requirement for bands.
 
         };  // end of for loop
