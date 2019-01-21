@@ -94,6 +94,7 @@ $.ajax({
 
         //adding the map function through Leaflet Issues#13
         function addMap(){
+           
             var mymap = L.map('mapid').setView([venueLat, venueLong], 13);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -104,8 +105,13 @@ $.ajax({
                 
             //getting the marker in map using the venue Name
             var marker = L.marker([venueLat, venueLong]).addTo(mymap);
-            marker.bindPopup(venueName).openPopup();
-        }
+            marker.bindPopup(venueName).openPopup(); 
+            console.log(mymap,[i]);   
+
+        };
+
+      //  adding map to html
+      $("#mapid").append(addMap); 
 
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
@@ -118,8 +124,7 @@ $.ajax({
        //var f = $('<p>').text(coordinates);
  
          //  Creating a new variable to include data for eventImage
-         var image = $("<img>").attr("src", eventImage).css("width", "50%").css("height", "auto")
-         .css("float","left");
+         var image = $("<img>").attr("src", eventImage).css("width", "50%").css("height", "auto").css("float","left");
          
          // create a div and button for a favorite button
          var favBtn = $("<p class='far fa-heart fa-lg' id='heart'></p>").css("padding","3px");
@@ -129,22 +134,21 @@ $.ajax({
          favBtn.attr("data-venue" , venueCity + venueCountry);
          favBtn.attr("data-eventName",eventName);
          favBtn.attr("data-eventImage", eventImage);
+         favBtn.attr("title","Save Venue");
 
          // create a div and button for a map section
          var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
-         mapBtn.attr({'favorite-status': 'No'}).css("color", "yellow").css("float","right");
+         mapBtn.attr({'favorite-status': 'No'}).attr("title","Map").css("color", "yellow").css("float","right");
 
          // create a div and button for a ticket purchase page
-         var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").css("float","right").css("width", "20%").css("height", "auto");
+         var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").attr("title","Buy Tickets Now!").css("float","right").css("width", "20%").css("height", "auto");
          var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
          var clickImage = $("<p><i class='fas fa-mouse-pointer fa-lg'></i>");
          ticketBtn.append(ticketBtnImage);
 
          //  append everything within the venue card to the html...
          venueDiv.append(image,mapBtn,favBtn,a,b,c,d,ticketBtn,clickImage); 
-         $("#venue-info").append(venueDiv);
-         $("#mapid").append(addMap); //adding map
-
+         $("#venue-info").append(venueDiv);  
 
          // Requirement for text in Band field #43
          var normalizeBand = bandName.toUpperCase();
@@ -153,8 +157,8 @@ $.ajax({
          console.log(normalizeBand);
          console.log(eventBand);
         
-         if( normalizeBand !== eventBand){
-             alert( "No concerts for this band!" )
+         if (normalizeBand !== eventBand) {
+            alert( "No concerts for this band!"); 
          };
          // end of requirement for bands.
 
