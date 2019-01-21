@@ -21,6 +21,7 @@ var config = {
 bandName = "";
 city = "";
 
+
 $("#submit-Search").on("click",function(event){
     event.preventDefault();
     $("#venue-info").empty();
@@ -29,7 +30,7 @@ $("#submit-Search").on("click",function(event){
     city = $("#CityName").val().trim();
     // var dates=$("#Dates").val().trim();
     // var price = $("#PricePay").val().trim();
-
+    cityMap = $("#CityName").val().trim();
 
     ticketInfo();
 
@@ -92,25 +93,7 @@ $.ajax({
         console.log(venueLat);
         console.log(response._embedded.events[i].priceRanges);
 
-        //adding the map function through Leaflet Issues#13
-        function addMap(){
-           
-            var mymap = L.map('mapid').setView([venueLat, venueLong], 13);
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                    maxZoom: 18,
-                    id: 'mapbox.streets',
-                    accessToken: 'pk.eyJ1IjoiYWFybTQ3MDIiLCJhIjoiY2pyM3RiNmw5MGU1bDN5bXk5MXE1ZGs2bSJ9.QbhjZk1rjfQb2fo7bvI-8A'
-                }).addTo(mymap);         
-                
-            //getting the marker in map using the venue Name
-            var marker = L.marker([venueLat, venueLong]).addTo(mymap);
-            marker.bindPopup("<b>Venue</b><br>" + venueName).openPopup();
-        }
-
-       // if ("#CityName" === "") 
         
-        $("#mapid").append(addMap);
 
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
@@ -166,6 +149,26 @@ $.ajax({
          // end of requirement for bands.
 
         };  // end of for loop
+            
+        //adding the map function through Leaflet Issues#13
+        function addMap(){
+           
+            var mymap = L.map('mapid').setView([venueLat, venueLong], 13);
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                    maxZoom: 18,
+                    id: 'mapbox.streets',
+                    accessToken: 'pk.eyJ1IjoiYWFybTQ3MDIiLCJhIjoiY2pyM3RiNmw5MGU1bDN5bXk5MXE1ZGs2bSJ9.QbhjZk1rjfQb2fo7bvI-8A'
+                }).addTo(mymap);         
+                
+            //getting the marker in map using the venue Name
+            var marker = L.marker([venueLat, venueLong]).addTo(mymap);
+            marker.bindPopup("<b>Venue</b><br>" + venueName).openPopup();
+        }
+
+       // if ("#CityName" === "") 
+        
+        $("#mapid").append(addMap);
 
     });  //  end of .then response
 
