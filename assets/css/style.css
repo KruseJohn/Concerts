@@ -133,3 +133,15 @@ body {
     height: auto;
     float: left;
 }
+
+.fa-mouse-pointer {
+    animation: blinker 1.25s cubic-bezier(.8, 0, 1, 1) infinite alternate;
+}
+@keyframes blinker {
+    from {
+        opacity: 1;
+   }
+    to {
+        opacity: 0;
+   }
+}
