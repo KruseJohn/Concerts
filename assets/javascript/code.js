@@ -14,8 +14,6 @@ var config = {
  
   var database = firebase.database();
 
-
-
 //Submit Search logic
 
 bandName = "";
@@ -23,14 +21,15 @@ city = "";
 
 
 $("#submit-Search").on("click",function(event){
-    event.preventDefault();
+    event.preventDefault(); 
     $("#venue-info").empty();
+    $("#mapid").empty();
 
     bandName = $("#Band-Name").val().trim();
     city = $("#CityName").val().trim();
+    
     // var dates=$("#Dates").val().trim();
     // var price = $("#PricePay").val().trim();
-    cityMap = $("#CityName").val().trim();
 
     ticketInfo();
 
@@ -51,7 +50,6 @@ $("#submit-Search").on("click",function(event){
         }
         else {
         var queryURL = "https://app.ticketmaster.com/discovery/v2/events.json?apikey=" + TMAPIKEY + "&keyword=" + bandName + "&classificationName=" + classification;
-       // addMap();
         console.log(queryURL);
         };
 
@@ -93,11 +91,15 @@ $.ajax({
         console.log(response._embedded.events[i].priceRanges);
         console.log(venueName);
     
-            if (city !== "") {
+            if (city === "") {
+                $("#mapid").hide();
+                $("#Band-Name").focus();
+
+            } else {
 
           //adding the map function through Leaflet Issues#13
           function addMap() {
-            
+            $("#mapid").empty();
             var mymap = L.map('mapid').setView([venueLat, venueLong], 13);
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -109,12 +111,17 @@ $.ajax({
             //getting the marker in map using the venue Name
             var marker = L.marker([venueLat, venueLong]).addTo(mymap);
             marker.bindPopup("<b>Venue</b><br>" + venueName).openPopup();
-
+            
             };
-
+            
             $("#mapid").append(addMap);
-        }  // end of if statement for city search
 
+            // this always brings the cursor back to artist text field after submit
+            $("#Band-Name").focus();
+            
+        } // end of if statement for city search
+            $("#mapid").show();
+        
 
          // Creating a div for the info                  
          var venueDiv = $("<div>", {class: 'holder'});
@@ -170,6 +177,8 @@ $.ajax({
     });  //  end of .then response
 
 };  //end of ajax call
+
+$("form")[0].reset();
 
 });  // end of submit search
 
@@ -279,6 +288,8 @@ $(document.body).on("click", "#heart", function () {
         
             //  prepend all favorite data to html in the form of a button
          $("#venue-info").prepend(venueDiv);
+
+         $("#mapid").hide();
         });
  
             //  on click function for favorite button
@@ -287,7 +298,6 @@ $(document.body).on("click", "#heart", function () {
 
             //  on click function for ticket button
         $(document.body).on("click", ".tix", function () {
-            console.log("clicked");
         });
 
     // When the user scrolls down 600px from the top of the document, show "back to top" button
