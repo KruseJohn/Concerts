@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 
 
@@ -273,13 +274,13 @@ $(document.body).on("click", "#heart", function () {
                    
                      $(document.body).on("click", "#delete" ,function(){
                       
+                        $(this).addClass("far").removeClass("fas")
                      
-                     //console.log(getId);
                      
                       database.ref($(this).attr("data-snapKey")).remove();
 
 
-                      $(".holder").hide();
+                      $(this).attr("class", ".holder").hide();
                     });
                    
                    
