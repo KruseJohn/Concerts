@@ -141,8 +141,8 @@ $.ajax({
          var favBtn = $("<p class='far fa-heart fa-lg' id='heart'></p>").css("padding","3px");
          favBtn.attr('favorite-status', 'No').css("color", "red").css("float","right");
          favBtn.attr("data-promoter", promoter);
-         favBtn.attr("data-dateTime", localeventDate + localeventTime)
-         favBtn.attr("data-venue" , venueCity + venueCountry);
+         favBtn.attr("data-dateTime", localeventDate + ", " + localeventTime)
+         favBtn.attr("data-venue" , venueCity + ", " + venueCountry);
          favBtn.attr("data-eventName",eventName);
          favBtn.attr("data-eventImage", eventImage);
          favBtn.attr("title","Save Venue");
@@ -187,60 +187,37 @@ $(document.body).on("click", "#heart", function () {
     var favStatus = $(this).attr("favorite-status");
     var parentCard = $(this).attr("data-promoter");
  //   var parentCardID = "#" + parentCard;
-    console.log(parentCard);
+    
     console.log(favStatus);
     
     // Add to Favorites section
     if (favStatus === "No") {
         $(this).addClass("fas").removeClass("far");
         $(this).attr({
-            'favorite-status': 'Yes'
-        });
+            'favorite-status': 'Yes'});
        
-    
-        } else {
+            var favSav = {
+                promoter : $(this).attr("data-promoter"),   
+                eventName: $(this).attr("data-eventName"),
+               // eventURL: $(this).attr(eventURL,
+                eventImage: $(this).attr("data-eventImage"),
+               localeventDate : $(this).attr("data-dateTime"),
+               // localeventTime : localeventTime,
+               venueCity : $(this).attr("data-venue"),
+               favoriteStatus : $(this).attr('favorite-status'),
+            }
+            
+               database.ref().push(favSav);
+       
+     } else {
             // Remove from Favorites
             $(this).attr({
                 'favorite-status': 'No'
             }).addClass("far").removeClass("fas");
-           //database.ref(favSav).remove();
-           database.ref(snapshot.key).remove();
-        }
-
-        var favSav = {
-            promoter : $(this).attr("data-promoter"),   
-            eventName: $(this).attr("data-eventName"),
-           // eventURL: $(this).attr(eventURL,
-            eventImage: $(this).attr("data-eventImage"),
-           localeventDate : $(this).attr("data-dateTime"),
-           // localeventTime : localeventTime,
-           venueCity : $(this).attr("data-venue"),
-           // venueCountry : venueCountry
+            
            
-           }
-       
-           database.ref().push(favSav);
-    
-        //    function renderButtons() {
-            
-     
-        //    for(i = 0; i < favSav.length; i++) {
-                
-            
-                //  var newBtn = $("<button class = 'btn btn-primary'>");
-            //    newBtn.addClass("favorite");
-                 
-                // newBtn.text("favorites");
-                // newBtn.attr("data-promoter" ,[i]);
-                // $("#fav-btn").append(newBtn);
-             
-             
-        //  };
-    //  }
-          // end of renderButtons function...
-     
-         //  call the function  
-        // renderButtons(); 
+
+        }
     }); 
 
     database.ref().on("child_added", function(snapshot){
@@ -249,56 +226,66 @@ $(document.body).on("click", "#heart", function () {
         
             $("#favorite").attr(snapshot.val());
         
-    });
-
- $("#favorite").on("click" , function (event) {
-    event.preventDefault();
     
-    console.log(this);
-              
-          
-    var venueDiv = $("<div>", {class: 'holder'});
-
-    var a = $('<p>')
-        a.text( $(this).attr("eventname"));
-        
-           
-    var b = $('<p>');
-        b.text($(this).attr("promoter"));
-        
-
-    var c = $('<p>').text($(this).attr("localeventdate")); 
     
-    var d = $('<p>').text($(this).attr("venuecity"));     
+            $("#favorite").on("click" , function (event) {
+                event.preventDefault();
+                
+                console.log(this);
+                          
+                      
+                var venueDiv = $("<div>", {class: 'holder'});
+            
+                var a = $('<p>').text(snapshot.val().eventName);
+                       
+                var b = $('<p>').text(snapshot.val().promoter);
+            
+                var c = $('<p>').text(snapshot.val().localeventDate);
+            
+                var d = $('<p>').text(snapshot.val().venueCity); 
+            
+                var eventImage = $('<img>');
+                    eventImage.addClass("favImg");
+        
+                 eventImage.attr("src", snapshot.val().eventImage);
+
+                 var deleteFav = $("<p class='fas fa-heart fa-lg' id='delete'></p>");
+                                   
+                 deleteFav.attr("data-snapKey",snapshot.key);
+
+
+                 venueDiv.append(eventImage);
+                    //venueDiv.append(b,a,c,d);
+                    
+            
+                   // venueDiv.append(eventImage);
+                    venueDiv.append(a);
+                    venueDiv.append(b);
+                    venueDiv.append(c);
+                    venueDiv.append(d);
+
+                    venueDiv.append(deleteFav);
+                    
+                        //  prepend all favorite data to html in the form of a button
+                     $("#venue-info").prepend(venueDiv);
+
+                     $("#mapid").hide();
+                   
+                     $(document.body).on("click", "#delete" ,function(){
+                      
+                     
+                     //console.log(getId);
+                     
+                      database.ref($(this).attr("data-snapKey")).remove();
+
+
+                      $(".holder").hide();
+                    });
+                   
+                   
+                    });
     
-    var eventImage = $('<img>');
-        eventImage.addClass("favImg");
-
-      eventImage.attr("src", $(this).attr("eventimage"));
-        
-       venueDiv.append(eventImage);
-        venueDiv.append(b,a,c,d);
-        
-
-       // venueDiv.append(eventImage);
-        venueDiv.append(a);
-        venueDiv.append(b);
-        venueDiv.append(c);
-        venueDiv.append(d);
-        
-            //  prepend all favorite data to html in the form of a button
-         $("#venue-info").prepend(venueDiv);
-
-         $("#mapid").hide();
-        });
- 
-            //  on click function for favorite button
-        $(document.body).on("click", ".fa-heart", function () {
-        });
-
-            //  on click function for ticket button
-        $(document.body).on("click", ".tix", function () {
-        });
+            });
 
     // When the user scrolls down 600px from the top of the document, show "back to top" button
     var btn = $('#upBtn');
