@@ -33,6 +33,33 @@ $("#submit-Search").on("click",function(event){
     // var dates=$("#Dates").val().trim();
     // var price = $("#PricePay").val().trim();
 
+
+
+    // #Band-Name input text field validation...
+   var isValid = true;
+    $("#Band-Name").each(function() {
+        if ($.trim($(this).val()) == '') {
+            isValid = false;
+            $(this).next('.error').remove();
+            $(this).after('<div class="error">An Artist or Band name is required...</div>');
+            $(this).css({
+                "border": "3px solid red",
+                "background": "#FFCECE"
+            });
+        }
+        else {
+            $(this).css({
+                "border": "",
+                "background": ""
+            });
+            $(this).next('.error').remove(); 
+        }
+    });
+    if (isValid == false)
+       e.preventDefault();  
+        // end of input text validation... 
+
+
     ticketInfo();
 
     //Function call to Ticketmaster API
@@ -133,8 +160,6 @@ $.ajax({
          var c = $('<p>').text(localeventDate + ", " + localeventTime).css("color", "white");
          var d = $('<p>').text(venueName).css("color", "white");
          var e = $('<p>').text(venueCity + ", " + venueCountry).css("color", "white");
-         
-       //var f = $('<p>').text(coordinates);
  
          //  Creating a new variable to include data for eventImage
          var image = $("<img>").attr("src", eventImage).css("width", "50%").css("height", "auto").css("float","left");
@@ -151,23 +176,21 @@ $.ajax({
          favBtn.attr("data-LatLong" , venueLat + "," + venueLong);
          favBtn.attr("title","Save Venue");
          // create a div and button for a map section
-        //  var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
-        
          var googleMap = "https://www.google.com/maps/@" + venueLat + "," + venueLong + ",15z";
-         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("color","yellow").css("padding","3px");
+         var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").attr("title","Map").css("float","right").css("color","yellow").css("padding","3px");
          mapBtn.attr({'favorite-status': 'No'});
          console.log(googleMap);
 
          // create a div and button for a ticket purchase page
          var ticketBtn = $("<a>", {class: "tix"}).attr("href", eventURL).attr("target","_blank").attr("title","Buy Tickets Now!").css("float","right").css("width", "20%").css("height", "auto");
          var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
-         var clickImage = $("<p><i class='fas fa-mouse-pointer fa-lg'></i>");
+        // var clickImage = $("<p><i class='fas fa-mouse-pointer fa-lg'></i>");
          ticketBtn.append(ticketBtnImage);
 
          //  append everything within the venue card to the html...
-         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,e,ticketBtn,clickImage); 
-         
+         venueDiv.append(image,mapBtn,favBtn,a,b,c,d,e,ticketBtn); 
          $("#venue-info").append(venueDiv);  
+         $("#venue-info").slideDown("1000");
 
          // Requirement for text in Band field #43
          var normalizeBand = bandName.toUpperCase();
@@ -220,9 +243,7 @@ $(document.body).on("click", "#heart", function () {
             $(this).attr({
                 'favorite-status': 'No'
             }).addClass("far").removeClass("fas");
-            
-           
-
+        
         }
     }); 
 
@@ -271,7 +292,7 @@ $(document.body).on("click", "#heart", function () {
 
                  var deleteFav = $("<p class='fas fa-heart fa-lg' id='delete'></p>");
                                    
-                 deleteFav.attr("data-snapKey",snapshot.key);
+                 deleteFav.attr("data-snapKey",snapshot.key).attr("title","Delete Saved Search");
 
 
                  venueDiv.append(eventImage);
@@ -305,6 +326,11 @@ $(document.body).on("click", "#heart", function () {
                     });
     
             });
+
+
+             //  on click function for ticket button
+        $(document.body).on("click", ".tix", function () {
+        });
 
     // When the user scrolls down 600px from the top of the document, show "back to top" button
     var btn = $('#upBtn');
