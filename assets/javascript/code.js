@@ -292,7 +292,7 @@ $(document.body).on("click", "#heart", function () {
 
                  var deleteFav = $("<p class='fas fa-heart fa-lg' id='delete'></p>");
                                    
-                 deleteFav.attr("data-snapKey",snapshot.key).attr("title","Delete Saved Search");
+                 deleteFav.attr("data-snapKey",snapshot.key);
 
 
                  venueDiv.append(eventImage);
@@ -310,22 +310,22 @@ $(document.body).on("click", "#heart", function () {
 
                      $("#mapid").hide();
                    
-                     $(document.body).on("click", "#delete" ,function(){
+                     $(document.body).on("click", "#delete", function(){
                       
-                        $(this).addClass("far").removeClass("fas")
+                        $(this).addClass("far").removeClass("fas");
                      
                      
                       database.ref($(this).attr("data-snapKey")).remove();
 
 
-                      $(this).attr("class", ".holder").hide();
-                    // $(this).attr(snapshot.val()).hide();
+                      $(this).attr("class", "holder").hide();
+                   //  $(this).attr(snapshot.val()).hide();
                     });
                    
                    
                     });
     
-            });
+                });
 
 
              //  on click function for ticket button
