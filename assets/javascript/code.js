@@ -22,7 +22,8 @@ city = "";
 
 
 $("#submit-Search").on("click",function(event){
-    event.preventDefault(); 
+    event.preventDefault();
+
     $("#venue-info").empty();
     $("#mapid").empty();
 
@@ -146,8 +147,9 @@ $.ajax({
          favBtn.attr("data-venue" , venueCity + ", " + venueCountry);
          favBtn.attr("data-eventName",eventName);
          favBtn.attr("data-eventImage", eventImage);
+         favBtn.attr("data-eventURL" , eventURL);
+         favBtn.attr("data-LatLong" , venueLat + "," + venueLong);
          favBtn.attr("title","Save Venue");
-
          // create a div and button for a map section
         //  var mapBtn = $("<p><i class='fas fa-map-marked-alt fa-lg'></i><p>").css("padding","3px");
         
@@ -164,6 +166,7 @@ $.ajax({
 
          //  append everything within the venue card to the html...
          venueDiv.append(image,mapBtn,favBtn,a,b,c,d,e,ticketBtn,clickImage); 
+         
          $("#venue-info").append(venueDiv);  
 
          // Requirement for text in Band field #43
@@ -200,12 +203,14 @@ $(document.body).on("click", "#heart", function () {
             var favSav = {
                 promoter : $(this).attr("data-promoter"),   
                 eventName: $(this).attr("data-eventName"),
-               // eventURL: $(this).attr(eventURL,
+                eventURL: $(this).attr("data-eventURL"),
                 eventImage: $(this).attr("data-eventImage"),
                localeventDate : $(this).attr("data-dateTime"),
-               // localeventTime : localeventTime,
+               VenueLatLong : $(this).attr("data-LatLong"),
                venueCity : $(this).attr("data-venue"),
                favoriteStatus : $(this).attr('favorite-status'),
+        
+           
             }
             
                database.ref().push(favSav);
@@ -250,6 +255,20 @@ $(document.body).on("click", "#heart", function () {
         
                  eventImage.attr("src", snapshot.val().eventImage);
 
+
+                 var googleMap = "https://www.google.com/maps/@" + snapshot.val().venueLat + "," + snapshot.val().venueLong + ",15z";
+                 var mapBtn = $("<a>", {class:"fas fa-map-marked-alt fa-lg"}).attr("href", googleMap).attr("target","_blank").css("float","right").css("color","yellow").css("padding","3px");
+                 mapBtn.attr({'favorite-status': 'No'});
+                 console.log(googleMap);
+        
+                 // create a div and button for a ticket purchase page
+                 var ticketBtn = $("<a>", {class: "tix"}).attr("href", snapshot.val().eventURL).attr("target","_blank").attr("title","Buy Tickets Now!").css("float","right").css("width", "20%").css("height", "auto");
+                 var ticketBtnImage = $("<img>").attr("src","assets/images/tix.png");
+                 
+                 ticketBtn.append(ticketBtnImage);
+
+
+
                  var deleteFav = $("<p class='fas fa-heart fa-lg' id='delete'></p>");
                                    
                  deleteFav.attr("data-snapKey",snapshot.key);
@@ -260,12 +279,10 @@ $(document.body).on("click", "#heart", function () {
                     
             
                    // venueDiv.append(eventImage);
-                    venueDiv.append(a);
-                    venueDiv.append(b);
-                    venueDiv.append(c);
-                    venueDiv.append(d);
+                   venueDiv.append(mapBtn,deleteFav,a,b,c,d,ticketBtn); 
+                   
 
-                    venueDiv.append(deleteFav);
+                   // venueDiv.append(deleteFav);
                     
                         //  prepend all favorite data to html in the form of a button
                      $("#venue-info").prepend(venueDiv);
@@ -281,6 +298,7 @@ $(document.body).on("click", "#heart", function () {
 
 
                       $(this).attr("class", ".holder").hide();
+                    // $(this).attr(snapshot.val()).hide();
                     });
                    
                    
