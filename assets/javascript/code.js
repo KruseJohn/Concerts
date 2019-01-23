@@ -306,7 +306,7 @@ $(document.body).on("click", "#heart", function () {
                    // venueDiv.append(deleteFav);
                     
                         //  prepend all favorite data to html in the form of a button
-                     $("#venue-info").prepend(venueDiv);
+                     $("#venue-fav").prepend(venueDiv);
 
                      $("#mapid").hide();
                    
