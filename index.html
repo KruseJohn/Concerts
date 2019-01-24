@@ -25,15 +25,15 @@
 
     <div class="container">
 
-        <div class="jumbotron">
-            <br>  <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
-            <h1 class="text-left">Where's My Music?</h1>
-            <br>  <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
-            <br>  <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
-            
-            
-            <form>
+        <div class="jumbotron" id="j1">
+            <br> <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
 
+            <h1 class="text-left">Where's My Music?</h1>
+
+            <br> <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
+            <br> <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
+
+            <form>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong> <label for="bidder-name">Artist/Band name</label></strong>
@@ -44,47 +44,55 @@
                         <strong> <label for="bidder-price">City</label> </strong>
                         <input class="form-control" id="CityName" type="text">
                     </div>
-
                 </div>
 
-                <br>  <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
+                <br> <!-- KEEP THESE HERE FOR JUMBOTRON HEIGHT-->
 
                 <div class="row">
-                    <div class="col-sm-6 mb-2">
-                        <button class="btn btn-primary" id="submit-Search" type="submit">Submit</button>
-                    </div>
-                    
-                    <div class="col-sm-6 mb-2">
-                        <button class="btn btn-primary" id="favorite">Favorites</button>
+                    <div class="col-sm-12">
+                        <div class="d-flex">
+                            <div class="p-2">
+                                <button class="btn btn-primary" id="submit-Search" type="submit">Submit</button>
+                            </div>
+
+                            <div class="ml-auto p-2">
+                                <button class="btn btn-primary" id="favorite">Favorites</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
-        
-         <div class="row">
-            <div class="col-sm-8">
-                <div id="search-results">
-                    <!-- Search results go here -->
+
+        <div class="jumbotron jumbotron-fluid mt-5" id="j2" style="visibility: hidden;">
+            <div class="row justify-content-end mr-5">
+                <button class="btn btn-primary" id="back-to-main-page">Back To Main Page</button>
+            </div>
+            <div class="row">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-8 mt-4">
                     <div id="venue-fav">
-                        <!-- venue name/pic/city info + ticket url <button> go here (js .addClass) -->
+                        <!-- favorite venue's go here -->
                     </div>
                 </div>
-
+                <div class="col-sm-2 mt-5">
+                    <div class="fav-header">
+                        <h1 id="fav-label">Favorites</h1>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                </div>
             </div>
-         </div>
-         
-        
-        
-        
+        </div>
+
         <div class="row">
             <div class="col-sm-8">
                 <div id="search-results">
-                    <!-- Search results go here -->
                     <div id="venue-info">
-                        <!-- venue name/pic/city info + ticket url <button> go here (js .addClass) -->
+                        <!-- venue name/pic/city info + ticket/favorite <button> go here -->
                     </div>
                 </div>
-
             </div>
             <div class="col-sm-4">
                 <div id="mapid">
@@ -94,13 +102,12 @@
         </div>
 
         <div class="row">
-            <a id="upBtn">
+            <a id="upBtn" title="Top of Page">
                 <i class="fas fa-arrow-circle-up fa-2x" title="Back to Top!"></i>
             </a>
         </div>
 
-    </div>
-
+    </div> <!-- end of container -->
 
     <!-- Moment JS link -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
@@ -109,12 +116,9 @@
     <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
         crossorigin=""></script>
 
-
     <!-- My javascript link-->
     <script src="assets/javascript/app.js"></script>
     <script src="assets/javascript/code.js"></script>
-
-
 
 
 </body>
